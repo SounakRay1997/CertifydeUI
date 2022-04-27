@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "certifydeb7399db4": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

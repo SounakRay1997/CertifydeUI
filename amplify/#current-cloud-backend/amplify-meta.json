@@ -1,0 +1,58 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-certifyde-dev-225210-authRole",
+      "UnauthRoleArn": "arn:aws:iam::044834988274:role/amplify-certifyde-dev-225210-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::044834988274:role/amplify-certifyde-dev-225210-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-certifyde-dev-225210-deployment",
+      "UnauthRoleName": "amplify-certifyde-dev-225210-unauthRole",
+      "StackName": "amplify-certifyde-dev-225210",
+      "StackId": "arn:aws:cloudformation:us-east-1:044834988274:stack/amplify-certifyde-dev-225210/0aa76050-c5d5-11ec-bdc3-0ecca500c90d",
+      "AmplifyAppId": "d1epnsdyhr43rz"
+    }
+  },
+  "auth": {
+    "certifydeb7399db4": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-east-1_oLWzxOn2Y",
+        "UserPoolName": "Certifyde_User_Pool",
+        "AppClientID": "5merlp8gi3cpt4lkpojmhc4km7",
+        "AppClientSecret": "veu0a25o2hg3cl0a97mr00nd07oo96g4q22bquke6288esdbul9",
+        "AppClientIDWeb": "456nkg0dki47vdsd6supj3gsj2",
+        "HostedUIDomain": "certifyde"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "NAME",
+          "EMAIL",
+          "UPDATED_AT"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2022-04-27T03:04:27.746Z"
+    }
+  }
+}
