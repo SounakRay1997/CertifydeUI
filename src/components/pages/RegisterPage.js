@@ -8,12 +8,34 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Multiselect from 'multiselect-react-dropdown';
+import Select from 'react-dropdown-select';
 import UserPool from '../../UserPool';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
+
 // import it from db later
-const courses = ['Foundation Data, Data, Everywhere - Coursera', 'Data Engineer Nanodegree - Udacity', 'Learn Python: The Complete Python Programming Course - Udemy']
+const courses = [{label : 'Foundation Data, Data, Everywhere - Coursera',  value : 'Foundation Data, Data, Everywhere - Coursera'},
+                 {label : 'Data Engineer Nanodegree - Udacity', value : 'Data Engineer Nanodegree - Udacity'},
+                 {label : 'Learn Python: The Complete Python Programming Course - Udemy', value : 'Learn Python: The Complete Python Programming Course - Udemy'}]
+const areas = [
+               {label: "Software Engineering", value: "Software Engineering"}, 
+               {label: "Machine Learning & Data Science", value: "Machine Learning & Data Science"}, 
+               {label: "Business Analytics", value: "Business Analytics"}, 
+               {label: "Health", value: "Health"}, 
+               {label: "Social Sciences", value: "Social Sciences"}, 
+               {label: "Personal Development", value: "Personal Development"}, 
+               {label: "Arts & Humanities", value: "Arts & Humanities"}, 
+               {label: "Physical Science and Engineering", value: "Physical Science and Engineering"}, 
+               {label: "Language Learning", value: "Language Learning"}, 
+               {label: "Math & Logic", value: "Math & Logic"}
+            ];
+
+const account_types = [
+               {label: "Candidate", value: "Candidate"}, 
+               {label: "Recruiter", value: "Recruiter"}
+];
+
+// const values = ['Software Engineering', 'Machine Learning & Data Science', 'Business Analytics', 'Health', 'Social Sciences', 'Personal Development', 'Arts & Humanities', 'Physical Science and Engineering', 'Language Learning', 'Math & Logic'];
 
 function ButtonAppBar() {
     return (
@@ -35,30 +57,38 @@ function ButtonAppBar() {
     );
   }
 
-
+  
 export default function SignUpPage() {
+    const textInput = React.useRef();
+    const textInput1 = React.useRef();
+    const textInput2 = React.useRef();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [preferences, setPreferences] = useState('');
-    const [courses_completed, setCoursesCompleted] = useState('');
+    const [courses_completed, setCourses] = useState('');
+    const [group, setGroup] = useState('');
 
     const attributes =[
         new CognitoUserAttribute({Name: 'name', Value: name}),
         new CognitoUserAttribute({Name: 'email', Value: email}),
-        new CognitoUserAttribute({Name: 'custom:preferences', Value: preferences}),
-        new CognitoUserAttribute({Name: 'custom:courses_completed', Value: courses_completed}),
+        new CognitoUserAttribute({Name: 'custom:preferences', Value: JSON.stringify(preferences)}),
+        new CognitoUserAttribute({Name: 'custom:courses_completed', Value: JSON.stringify(courses_completed)}),
+        new CognitoUserAttribute({Name: 'custom:group', Value: JSON.stringify(group)})
     ];
 
-
     const onSubmit = event => {
-        console.log(preferences)
         event.preventDefault();
-        
+        console.log(attributes)
         UserPool.signUp(email, password, attributes, null, (err, data) => {
-          if (err) console.error(err);
-          console.log(data);
+          if (err){
+            alert("Error! Please try again and make sure you don't have an account already.")
+          }
+          else {
+            alert("Registration Successful! Please confirm your email to login.")
+            window.location.href = "/login";
+          }
         });
     };
     
@@ -69,88 +99,47 @@ export default function SignUpPage() {
             <h5>Create your personal account</h5>
             <form onSubmit={onSubmit}>
                 <p>
+                    <label>Type of Account</label><br />
+                    <Select
+                        className='multi-select-class'
+                        options={account_types}
+                        values={[]}
+                        onChange={(values) => setGroup(values)}
+                        clearable={true}
+                    />
+                </p>
+                <p>
                     <label>Full Name</label><br />
-                    <input type="text" name="name" value={name} onChange={event => setName(event.target.value)} required />
+                    <input ref={textInput} type="text" name="name" value={name} onChange={event => setName(event.target.value)} required />
                 </p>
                 <p>
                     <label>Email address</label><br />
-                    <input type="email" name="email" value={email} onChange={event => setEmail(event.target.value)} required />
+                    <input ref={textInput1} type="email" name="email" value={email} onChange={event => setEmail(event.target.value)} required />
                 </p>
                 <p>
                     <label>Password</label><br />
-                    <input type="password" name="password" value={password} onChange={event => setPassword(event.target.value)} requiredc />
+                    <input ref={textInput2} type="password" name="password" value={password} onChange={event => setPassword(event.target.value)} required />
                 </p>
                 <p>
                     <label>Areas of Preference</label><br />
-                    <Multiselect
-                        className='multi_select'
-                        isObject={false}
-                        caseSensitiveSearch
-                        onKeyPressFn={function noRefCheck(){}}
-                        onRemove={function noRefCheck(){}}
-                        onSearch={function noRefCheck(){}}
-                        onSelect={function noRefCheck(){}}
-                        onChange={event => setPreferences(event.target.value)}
-                        options={[
-                            'Software Engineering',
-                            'Machine Learning & Data Science',
-                            'Business Analytics',
-                            'Health',
-                            'Social Sciences',
-                            'Personal Development',
-                            'Arts & Humanities',
-                            'Physical Science and Engineering',
-                            'Language Learning',
-                            'Math & Logic'
-                        ]}
-                        placeholder=""
-                        style={{
-                            chips: {
-                                background: 'blue'
-                            },
-                            multiselectContainer: {
-                                color: 'black'
-                            },
-                            searchBox: {
-                                'background': 'white',
-                                'width': '30rem',
-                                'padding': '.3rem',
-                                'border-radius': '5px',
-                                'outline': 'none',
-                                'border': 'none'
-                            }
-                        }}
+                    <Select
+                        className='multi-select-class'
+                        multi
+                        options={areas}
+                        values={[]}
+                        onChange={(values) => setPreferences(values)}
+                        clearable={true}
                     />
                 </p>
                 <p>
                     <label>Courses Completed</label><br />
-                    <Multiselect
-                        className='multi_select'
-                        isObject={false}
-                        caseSensitiveSearch
-                        onKeyPressFn={function noRefCheck(){}}
-                        onRemove={function noRefCheck(){}}
-                        onSearch={function noRefCheck(){}}
-                        onSelect={function noRefCheck(){}}
-                        onChange={event => setCoursesCompleted(event.target.value)}
+                    <Select
+                        className='multi-select-class'
+                        multi
                         options={courses}
-                        placeholder=""
-                        style={{
-                            chips: {
-                                background: 'blue'
-                            },
-                            multiselectContainer: {
-                                color: 'black'
-                            },
-                            searchBox: {
-                                'background': 'white',
-                                'width': '30rem',
-                                'padding': '.3rem',
-                                'border-radius': '5px',
-                                'outline': 'none',
-                                'border': 'none'
-                            }
-                        }}
+                        values={[]}
+                        onChange={(values) => setCourses(values)}
+                        clearable={true}
                     />
                 </p>
                 <p>
