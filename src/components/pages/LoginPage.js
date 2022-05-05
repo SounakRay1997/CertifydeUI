@@ -39,14 +39,16 @@ export default function SignInPage() {
     const [password, setPassword] = useState('');
 
     const authenticationData = {
-      Email: email,
+      Username: email,
       Password: password,
     };
+    
+    console.log(authenticationData)
 
     const authenticationDetails = new AuthenticationDetails(authenticationData)
 
     const userData = {
-      Email: email,
+      Username: email,
       Pool: UserPool,
     };
   
@@ -56,10 +58,10 @@ export default function SignInPage() {
     const onSubmit = event => {
         event.preventDefault();
         cognitoUser.authenticateUser(authenticationDetails, {
-          onSuccess(res) {
-            alert("Logged In!")
+          onSuccess: function(result) {
+            window.location.href = "/home";
           },
-          onFailure(err) {
+          onFailure: function(err) {
             alert("Please check your email and password. Also make sure that your email address is confirmed!")
           }
         });
