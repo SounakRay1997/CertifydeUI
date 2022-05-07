@@ -38,7 +38,7 @@ export async function loginUser(dispatch, loginPayload) {
  
     if (data) {
       let return_data = {'user': {'email': loginPayload[0]}, 'auth_token': result.getAccessToken().getJwtToken()};
-      dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+      dispatch({ type: 'LOGIN_SUCCESS', payload: return_data });
       localStorage.setItem('currentUser', JSON.stringify(return_data));
       return return_data
     }
