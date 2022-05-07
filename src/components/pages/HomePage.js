@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 import { useAuthDispatch, logout, useAuthState } from '../../context'
 //import styles from './dashboard.module.css'
 
@@ -7,7 +8,19 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import '../../App.css'
+
+const LogoutButton = () => {
+    const dispatch = useAuthDispatch()
+    const handleLogout = () => {
+        logout(dispatch) 
+        window.location.href = "/login";
+    }
+    return <Button className="header-link" color="inherit" onClick={handleLogout}>Logout</Button>;
+  }
 
 function ButtonAppBar() {
     return (
@@ -17,9 +30,7 @@ function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <a className="header-link" href="/home" color="inherit">CERTIFYDE</a>
             </Typography>
-            <Link className="header-link" color="inherit" to="/login">
-                <Button className="header-link" color="inherit" id="logout_button">Logout</Button>
-            </Link>
+            <LogoutButton />
           </Toolbar>
         </AppBar>
       </Box>
@@ -27,25 +38,30 @@ function ButtonAppBar() {
   }
  
 function HomePage(props) {
-    const dispatch = useAuthDispatch() // read dispatch method from context
+    //const dispatch = useAuthDispatch()  read dispatch method from context
     const userDetails = useAuthState() //read user details from context
     const email = userDetails.userDetails.email;
     console.log(email)
- 
-    // const handleLogout = () => {
-       
-    // }
-    React.useEffect(() => {
-      var element = document.getElementById("logout_button")
-      element.addEventListener("onClick", (event) => {
-        logout(dispatch) //call the logout action
-        
-        props.history.push('/login') //navigate to logout page on logout
-      })
-    }, []);
+
+    const [searchVal, setSearch] = useState('');
+
+    const handleCourseSearch = event => {
+        event.preventDefault();
+        console.log()
+    }
+
     return (
-        <><ButtonAppBar /><div className="text-center m-5-auto">
-            <h2>Welcome {userDetails.userDetails.email}</h2>
+        <><ButtonAppBar />
+        <div className="text-center m-5-auto">
+        <Row>
+        <Col><div class="welcome_header">Welcome {userDetails.userDetails.email}</div></Col>
+        <Col><form className="multi_forms" onSubmit={handleCourseSearch}>
+                <label>Search:</label>
+                <input type="text" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
+                <button id="sub_btn" type="submit">Search</button>
+            </form>
+        </Col>
+        </Row>
         </div></>
     )
 }
