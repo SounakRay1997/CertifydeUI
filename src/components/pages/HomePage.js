@@ -1,28 +1,15 @@
 import React from 'react'
-import { useState } from 'react';
-import { useAuthDispatch, logout, useAuthState } from '../../context'
-//import styles from './dashboard.module.css'
+import { Link } from 'react-router-dom'
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
-import '../../App.css'
-
-const LogoutButton = () => {
-    const dispatch = useAuthDispatch()
-    const handleLogout = () => {
-        logout(dispatch) 
-        window.location.href = "/login";
-    }
-    return <Button className="header-link" color="inherit" onClick={handleLogout}>Logout</Button>;
-  }
 
 function ButtonAppBar() {
+
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed">
@@ -30,40 +17,20 @@ function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <a className="header-link" href="/home" color="inherit">CERTIFYDE</a>
             </Typography>
-            <LogoutButton />
+            <Link className="header-link" color="inherit" to="/">
+                <Button className="header-link" color="inherit">Logout</Button>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
     );
   }
- 
-function HomePage(props) {
-    //const dispatch = useAuthDispatch()  read dispatch method from context
-    const userDetails = useAuthState() //read user details from context
-    const email = userDetails.userDetails.email;
-    console.log(email)
 
-    const [searchVal, setSearch] = useState('');
 
-    const handleCourseSearch = event => {
-        event.preventDefault();
-        console.log()
-    }
-
+export default function HomePage() {
     return (
-        <><ButtonAppBar />
-        <div className="text-center m-5-auto">
-        <Row>
-        <Col><div class="welcome_header">Welcome {userDetails.userDetails.email}</div></Col>
-        <Col><form className="multi_forms" onSubmit={handleCourseSearch}>
-                <label>Search:</label>
-                <input type="text" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
-                <button id="sub_btn" type="submit">Search</button>
-            </form>
-        </Col>
-        </Row>
+        <><ButtonAppBar /><div className="text-center">
+            <h1 className="main-title home-page-title">Hello!</h1>
         </div></>
     )
 }
- 
-export default HomePage
