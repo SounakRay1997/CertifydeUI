@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import '../../App.css'
@@ -14,9 +14,6 @@ import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 
 // import it from db later
-const courses = [{label : 'Foundation Data, Data, Everywhere - Coursera',  value : 'Foundation Data, Data, Everywhere - Coursera'},
-                 {label : 'Data Engineer Nanodegree - Udacity', value : 'Data Engineer Nanodegree - Udacity'},
-                 {label : 'Learn Python: The Complete Python Programming Course - Udemy', value : 'Learn Python: The Complete Python Programming Course - Udemy'}]
 const areas = [
                {label: "Software Engineering", value: "Software Engineering"}, 
                {label: "Machine Learning & Data Science", value: "Machine Learning & Data Science"}, 
@@ -29,6 +26,10 @@ const areas = [
                {label: "Language Learning", value: "Language Learning"}, 
                {label: "Math & Logic", value: "Math & Logic"}
             ];
+
+
+
+
 
 const account_types = [
                {label: "Candidate", value: "Candidate"}, 
@@ -58,10 +59,19 @@ function ButtonAppBar() {
   }
 
   
+
+
+  
 export default function SignUpPage() {
     const textInput = React.useRef();
     const textInput1 = React.useRef();
     const textInput2 = React.useRef();
+
+    const [courses,setListOfCourses] = useState( [
+                                                    {label : 'Foundation Data, Data, Everywhere - Coursera',  value : 'Foundation Data, Data, Everywhere - Coursera'},
+                                                    {label : 'Data Engineer Nanodegree - Udacity', value : 'Data Engineer Nanodegree - Udacity'},
+                                                    {label : 'Learn Python: The Complete Python Programming Course - Udemy', value : 'Learn Python: The Complete Python Programming Course - Udemy'}
+                                                ]);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -69,6 +79,32 @@ export default function SignUpPage() {
     const [preferences, setPreferences] = useState('');
     const [courses_completed, setCourses] = useState('');
     const [group, setGroup] = useState('');
+
+    useEffect(() => {
+
+      fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/courses', {
+        //mode:{mode:"no-cors"},
+          method: 'GET', // or 'PUT'
+          headers:{
+            Accept: 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(json => {
+            var user_list = []
+            var data_1 = json['body']
+            console.log(data_1)
+            for (let i=0;i<data_1.length;i++){
+                user_list.push({'label':data_1[i].title,'value':data_1[i].id})
+            }
+            //setCourses(user_list)
+            //console.log('parsed json', json['body']) // access json.body here
+            setListOfCourses(user_list)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  },[]);
 
     const attributes =[
         new CognitoUserAttribute({Name: 'name', Value: name}),
@@ -80,6 +116,7 @@ export default function SignUpPage() {
 
     const onSubmit = event => {
         event.preventDefault();
+        console.log(name,' ',email,' ',password)
         console.log(attributes)
         UserPool.signUp(email, password, attributes, null, (err, data) => {
           if (err){
@@ -92,6 +129,9 @@ export default function SignUpPage() {
         });
     };
     
+    useEffect(() =>{
+      console.log(courses_completed)
+    },[courses_completed])
 
     return (
         <><ButtonAppBar /><div className="text-center m-5-auto">
@@ -153,3 +193,4 @@ export default function SignUpPage() {
     )
 
 }
+
