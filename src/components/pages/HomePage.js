@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import CourseDetails from '../CourseDetailsComponent';
 
 import ExploreSection from "../common/exploreSection";
 
@@ -39,7 +40,7 @@ function ButtonAppBar() {
       </Box>
     );
   }
- 
+
 function HomePage(props) {
     //const dispatch = useAuthDispatch()  read dispatch method from context
     const userDetails = useAuthState() //read user details from context
@@ -47,6 +48,7 @@ function HomePage(props) {
     const [name, setName] = useState('');
     const [completed_courses, setListOfCompletedCourses] = useState([]);
     const [ongoing_courses, setListOfOngoingCourses] = useState([]);
+    const [searchedCourses, setSearchedCourses] = useState([]);
 
     useLayoutEffect(() => {
 
@@ -109,10 +111,46 @@ function HomePage(props) {
 
     const [searchVal, setSearch] = useState('');
 
+    // https://search-course-details-zkv6rm6mcpx6ifdavir5l5bcb4.us-east-1.es.amazonaws.com
     const handleCourseSearch = event => {
         event.preventDefault();
-    }
+        fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/search-course/'+searchVal, {
+              method: 'GET', 
+              headers:{
+                Accept: 'application/json',
+              }
+            })
+        .then(response => response.json())
+        .then(json => {
+            var body = json['body']
+            var courses=JSON.parse(body)
+            console.log(courses)
+            setSearchedCourses(courses)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+    console.log(searchedCourses)
+    
+    if(searchVal){
+      return (
+        <><ButtonAppBar />
+        <div className="text-center m-5-auto">
+        <Row>
+        <Col><div className="welcome_header">Welcome {name}</div></Col>
+        <Col><form className='d-flex' onSubmit={handleCourseSearch}>
+                <label id="search_label">Search Courses:</label>
+                <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
+                <button id="sub_btn_search" type="submit">Search</button>
+            </form>
+        </Col>
+        </Row>
 
+        <CourseDetails courses={searchedCourses} />
+        </div></>
+      )   
+    }
     return (
         <><ButtonAppBar />
         <div>
@@ -139,7 +177,8 @@ function HomePage(props) {
             collectionName="Recommended Courses"
           />    
           </div>
-        </div></>
+          </div>
+          </>
     )
 }
  
