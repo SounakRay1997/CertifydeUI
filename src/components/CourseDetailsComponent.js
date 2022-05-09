@@ -6,9 +6,9 @@ const CourseDetails = ({courses}) => {
     console.log(courses)
     return courses.map(({id, level, organization, rating, students_enrolled, title, total_reviews, type, url}) => {
         var title = <a href={url}> {title} </a>
-        // if (!url) {
-        //     return <div></div>
-        // }
+        if (!url) {
+            return <div key ={id}></div>
+        }
         return <div key ={id}>
             <Row>
                 <Col>{title}</Col>
