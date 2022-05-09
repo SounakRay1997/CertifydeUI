@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useLayoutEffect} from 'react';
+import { useState } from 'react';
 import { useAuthDispatch, logout, useAuthState } from '../../context'
 //import styles from './dashboard.module.css'
 
@@ -12,7 +12,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import '../../App.css'
-
 
 const LogoutButton = () => {
     const dispatch = useAuthDispatch()
@@ -42,29 +41,7 @@ function HomePage(props) {
     //const dispatch = useAuthDispatch()  read dispatch method from context
     const userDetails = useAuthState() //read user details from context
     const email = userDetails.userDetails.email;
-    const [name, setName] = useState('');
     console.log(email)
-
-    useLayoutEffect(() => {
-
-      fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/user?email='+email, {
-          method: 'GET', 
-          headers:{
-            Accept: 'application/json',
-          }
-        })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json)
-            var body = json['body']
-            var name1=JSON.parse(body)['full_name']
-            console.log(name1)
-            setName(name1)
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    },[]);
 
     const [searchVal, setSearch] = useState('');
 
@@ -77,7 +54,7 @@ function HomePage(props) {
         <><ButtonAppBar />
         <div className="text-center m-5-auto">
         <Row>
-        <Col><div class="welcome_header">Welcome {name}</div></Col>
+        <Col><div class="welcome_header">Welcome {userDetails.userDetails.email}</div></Col>
         <Col><form className='d-flex' onSubmit={handleCourseSearch}>
                 <label id="search_label">Search Courses:</label>
                 <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />

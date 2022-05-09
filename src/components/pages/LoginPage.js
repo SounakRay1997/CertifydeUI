@@ -94,7 +94,7 @@ export default function LoginPage(props) {
     return (
         <><ButtonAppBar /><div className="text-center m-5-auto">
             <h2>Sign in to Certifyde</h2>
-            <form onSubmit={handleLogin}>
+            <form className="multi_forms" onSubmit={handleLogin}>
                 <p>
                     <label>Email address</label><br />
                     <input type="email" name="email" value={email} onChange={event => setEmail(event.target.value)} required />

@@ -211,3 +211,24 @@ form span {
 .home-page-title {
   color: #222
 }
+
+#search {
+  width: 20em;  
+  height: 2em;
+  border: 1px solid black;
+}
+
+#search_label{
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.welcome_header{
+  font-size: 20px;
+}
+
+#sub_btn_search{
+  background-color: blue;
+  margin-left: 10px;
+  color: white;
+}
