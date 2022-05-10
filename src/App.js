@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 //import { connect } from 'react-redux';
 
@@ -12,7 +12,11 @@ import { AuthProvider } from "./context";
 
 import './App.css'
 
+
 export default function App() {
+
+    useEffect(() => { document.body.style.backgroundColor = 'lightblue' }, [])
+    
     return (
         <AuthProvider>
             <Router>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useLayoutEffect} from 'react';
+import { useState, useLayoutEffect} from 'react';
 import { useAuthDispatch, logout, useAuthState } from '../../context'
 //import styles from './dashboard.module.css'
 
@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+import ExploreSection from "../common/exploreSection";
 
 import '../../App.css'
 
@@ -43,7 +45,8 @@ function HomePage(props) {
     const userDetails = useAuthState() //read user details from context
     const email = userDetails.userDetails.email;
     const [name, setName] = useState('');
-    console.log(email)
+    const [completed_courses, setListOfCompletedCourses] = useState([]);
+    const [ongoing_courses, setListOfOngoingCourses] = useState([]);
 
     useLayoutEffect(() => {
 
@@ -55,36 +58,87 @@ function HomePage(props) {
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
             var body = json['body']
-            var name1=JSON.parse(body)['full_name']
-            console.log(name1)
+            var name1 = JSON.parse(body)['full_name']
+            var completed_courses_id = JSON.parse(body)['courses_completed']
+            var ongoing_courses_id = JSON.parse(body)['ongoing_courses']
             setName(name1)
+            var completed_courses_list = [];
+            var ongoing_courses_list = [];
+            for (let i=0;i<completed_courses_id.length;i++){
+              console.log(completed_courses_id[i])
+              fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+completed_courses_id[i], {
+                method: 'GET', 
+                headers:{
+                  Accept: 'application/json',
+                }
+              })
+              .then(response => response.json())
+              .then(json => {
+                var body = json['body']
+                setListOfCompletedCourses((oldArray) => [...oldArray, JSON.parse(body)]);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+            }
+
+                console.log(completed_courses_list)
+            for (let i=0;i<ongoing_courses_id.length;i++){
+              fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+ongoing_courses_id[i], {
+                method: 'GET', 
+                headers:{
+                  Accept: 'application/json',
+                }
+              })
+              .then(response => response.json())
+              .then(json => {
+                var body = json['body']
+                setListOfOngoingCourses((oldArray) => [...oldArray, JSON.parse(body)]);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+            }
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     },[]);
 
+
     const [searchVal, setSearch] = useState('');
 
     const handleCourseSearch = event => {
         event.preventDefault();
-        console.log()
     }
 
     return (
         <><ButtonAppBar />
-        <div className="text-center m-5-auto">
-        <Row>
-        <Col><div class="welcome_header">Welcome {name}</div></Col>
-        <Col><form className='d-flex' onSubmit={handleCourseSearch}>
-                <label id="search_label">Search Courses:</label>
-                <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
-                <button id="sub_btn_search" type="submit">Search</button>
-            </form>
-        </Col>
-        </Row>
+        <div>
+          <div className="text-center m-5-auto">
+          <Row>
+            <Col><div className="welcome_header">Welcome {name}</div></Col>
+            <Col id="search_form"> <form className='d-flex' onSubmit={handleCourseSearch}>
+                  <label id="search_label">Search Courses:</label>
+                  <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
+                  <button id="sub_btn_search" type="submit">Search</button>
+                  </form>
+            </Col>
+          </Row>
+          <ExploreSection
+            courses={completed_courses}
+            collectionName="Completed Courses"
+          />  
+          <ExploreSection
+            courses={ongoing_courses}
+            collectionName="Ongoing Courses"
+          />
+          <ExploreSection
+            courses={ongoing_courses}
+            collectionName="Recommended Courses"
+          />    
+          </div>
         </div></>
     )
 }
