@@ -64,10 +64,10 @@ function HomePage(props) {
     const email = userDetails.userDetails.email;
     const [name, setName] = useState('');
     const [group, setGroup] = useState('');
-    const [course_preferences, setCoursePreferences] = useState([]);
     const [completed_courses, setListOfCompletedCourses] = useState([]);
     const [ongoing_courses, setListOfOngoingCourses] = useState([]);
     const [searchedCourses, setSearchedCourses] = useState([]);
+    const [candidates_with_same_preferences, setCandidatesWithSamePreferences] = useState([])
 
     useLayoutEffect(() => {
 
@@ -84,7 +84,7 @@ function HomePage(props) {
             var completed_courses_id = JSON.parse(body)['courses_completed']
             var ongoing_courses_id = JSON.parse(body)['ongoing_courses']
             setName(JSON.parse(body)['full_name'])
-            setCoursePreferences(JSON.parse(body)['course_preferences'])
+            var course_preferences_json = JSON.parse(body)['course_preferences']
             for (let i=0;i<completed_courses_id.length;i++){
               console.log(completed_courses_id[i])
               fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+completed_courses_id[i], {
@@ -118,17 +118,39 @@ function HomePage(props) {
                 console.error('Error:', error);
               });
             }
+            if (JSON.parse(body)['group']==='Recruiter') {
+              for (let i=0;i<course_preferences_json.length;i++) {
+                  fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/user/'+course_preferences_json[i], {
+                      method: 'GET', 
+                      headers:{
+                        Accept: 'application/json',
+                      }
+                    })
+                    .then(response => response.json())
+                    .then(json => {
+                        var body = json['body']
+                        if (body){
+                          setCandidatesWithSamePreferences((oldArray) => [...oldArray, [course_preferences_json[i], body]]);
+                        }
+                        else {
+                          setCandidatesWithSamePreferences((oldArray) => [...oldArray, [course_preferences_json[i], []]]);
+                        }
+                      })
+                    .catch((error) => {
+                      console.error('Error:', error);
+                      setCandidatesWithSamePreferences((oldArray) => [...oldArray, [course_preferences_json[i], []]]);
+                    });
+                }
+            } 
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     }, [email]);
 
-
     const [searchVal, setSearch] = useState('');
     const [searchPressed, setPressed] = useState('');
 
-    // https://search-course-details-zkv6rm6mcpx6ifdavir5l5bcb4.us-east-1.es.amazonaws.com
     const handleCourseSearch = event => {
         event.preventDefault();
         fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/search-course/'+searchVal, {
@@ -158,9 +180,26 @@ function HomePage(props) {
           <Row>
             <Col><div className="welcome_header">Welcome {name} ({group})</div></Col>
           </Row>
+          <div className="max-width explore-section">
+              {candidates_with_same_preferences.map((preference) => {
+              return (<div>
+                <Row>
+                <h3 className="collection-title">{preference[0]}</h3>
+                {preference[1].map((candidate) => {
+                  return (
+                  <div className="collection-title">
+                    {candidate.full_name} {candidate.email_address}
+                  </div>
+                  )
+                })}                  
+                </Row>
+                <br/><br/><br/> </div>
+              )
+              })}
           </div>
           </div>
-          </>
+        </div>
+        </>
       )
     }
 
