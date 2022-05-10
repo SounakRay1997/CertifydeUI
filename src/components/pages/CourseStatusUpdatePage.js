@@ -65,7 +65,7 @@ function CourseStatusUpdatePage(props) {
       .catch((error) => {
         console.error('Error:', error);
       });
-  },[]);
+  },[email]);
 
   const [courses,setListOfCourses] = useState( []);
   const [select_to_ongoing_courses, setSelectToOngoingCourses] = useState([]);

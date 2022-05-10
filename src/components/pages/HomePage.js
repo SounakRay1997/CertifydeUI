@@ -12,7 +12,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import ExploreSection from "../common/exploreSection";
-import CourseDetails from '../CourseDetailsComponent';
 import { Link } from 'react-router-dom'
 
 import '../../App.css'
@@ -106,7 +105,7 @@ function HomePage(props) {
         .catch((error) => {
           console.error('Error:', error);
         });
-    }, []);
+    }, [email]);
 
 
     const [searchVal, setSearch] = useState('');
