@@ -12,6 +12,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import ExploreSection from "../common/exploreSection";
+import CourseDetails from '../CourseDetailsComponent';
+import { Link } from 'react-router-dom'
 
 import '../../App.css'
 
@@ -33,6 +35,9 @@ function ButtonAppBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <a className="header-link" href="/home" color="inherit">CERTIFYDE</a>
             </Typography>
+            <Link className="header-link" color="inherit" to="/course_update_status">
+                <Button className="header-link" color="inherit">Update Course Status</Button>
+            </Link>
             <LogoutButton />
           </Toolbar>
         </AppBar>

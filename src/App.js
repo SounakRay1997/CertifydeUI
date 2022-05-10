@@ -6,7 +6,7 @@ import LandingPage from './components/pages/LandingPage'
 import LoginPage from './components/pages/LoginPage'
 import RegisterPage from './components/pages/RegisterPage'
 import HomePage from './components/pages/HomePage'
-import AddOngoingCourses from './components/pages/AddOngoingCourses'
+import CourseStatusUpdatePage from './components/pages/CourseStatusUpdatePage'
 
 import { AuthProvider } from "./context";
 
@@ -26,7 +26,7 @@ export default function App() {
                         <Route path="/login" component={ LoginPage } />
                         <Route path="/register" component={ RegisterPage } />
                         <Route exact path="/home" component={ HomePage } />
-                        <Route exact path="/add_ongoing_courses" component={ AddOngoingCourses } />
+                        <Route exact path="/course_update_status" component={ CourseStatusUpdatePage } />
                         <Redirect from="*" to= "/" />
                     </Switch>
                 </div>
