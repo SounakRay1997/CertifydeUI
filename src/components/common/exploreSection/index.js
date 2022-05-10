@@ -4,7 +4,6 @@ import "./exploreSection.css";
 import Container from 'react-bootstrap/Container';
 
 const ExploreSection = ({ courses, collectionName }) => {
-  console.log(courses);
   if (courses.length===0){
     return (
       <div id = "hi" className="max-width explore-section">

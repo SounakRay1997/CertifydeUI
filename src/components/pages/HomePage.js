@@ -26,7 +26,21 @@ const LogoutButton = () => {
     return <Button className="header-link" color="inherit" onClick={handleLogout}>Logout</Button>;
   }
 
-function ButtonAppBar() {
+function ButtonAppBar(group) {
+  if (group['group']==="Recruiter") {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <a className="header-link" href="/home" color="inherit">CERTIFYDE</a>
+            </Typography>
+            <LogoutButton />
+          </Toolbar>
+        </AppBar>
+      </Box>
+    );
+  }
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed">
@@ -49,6 +63,8 @@ function HomePage(props) {
     const userDetails = useAuthState() //read user details from context
     const email = userDetails.userDetails.email;
     const [name, setName] = useState('');
+    const [group, setGroup] = useState('');
+    const [course_preferences, setCoursePreferences] = useState([]);
     const [completed_courses, setListOfCompletedCourses] = useState([]);
     const [ongoing_courses, setListOfOngoingCourses] = useState([]);
     const [searchedCourses, setSearchedCourses] = useState([]);
@@ -64,10 +80,11 @@ function HomePage(props) {
         .then(response => response.json())
         .then(json => {
             var body = json['body']
-            var name1 = JSON.parse(body)['full_name']
+            setGroup(JSON.parse(body)['group'])
             var completed_courses_id = JSON.parse(body)['courses_completed']
             var ongoing_courses_id = JSON.parse(body)['ongoing_courses']
-            setName(name1)
+            setName(JSON.parse(body)['full_name'])
+            setCoursePreferences(JSON.parse(body)['course_preferences'])
             for (let i=0;i<completed_courses_id.length;i++){
               console.log(completed_courses_id[i])
               fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+completed_courses_id[i], {
@@ -132,14 +149,27 @@ function HomePage(props) {
           console.error('Error:', error);
         });
     };
-    console.log(searchedCourses)
     
+    if (group==='Recruiter') {
+      return (
+        <><ButtonAppBar group={group}/>
+        <div>
+          <div className="text-center m-5-auto">
+          <Row>
+            <Col><div className="welcome_header">Welcome {name} ({group})</div></Col>
+          </Row>
+          </div>
+          </div>
+          </>
+      )
+    }
+
     if(searchPressed==='1'){
       return (
         <><ButtonAppBar />
         <div className="text-center m-5-auto">
         <Row>
-        <Col><div className="welcome_header">Welcome {name}</div></Col>
+        <Col><div className="welcome_header">Welcome {name} ({group})</div></Col>
         <Col><form className='d-flex' onSubmit={handleCourseSearch}>
                 <label id="search_label">Search Courses:</label>
                 <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />
@@ -160,7 +190,7 @@ function HomePage(props) {
         <div>
           <div className="text-center m-5-auto">
           <Row>
-            <Col><div className="welcome_header">Welcome {name}</div></Col>
+            <Col><div className="welcome_header">Welcome {name} ({group})</div></Col>
             <Col id="search_form"> <form className='d-flex' onSubmit={handleCourseSearch}>
                   <label id="search_label">Search Courses:</label>
                   <input type="text" id="search" name="text" value={searchVal} onChange={event => setSearch(event.target.value)} required />

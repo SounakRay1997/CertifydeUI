@@ -63,11 +63,7 @@ export default function SignUpPage() {
     const textInput1 = React.useRef();
     const textInput2 = React.useRef();
 
-    const [courses,setListOfCourses] = useState( [
-                                                    {label : 'Foundation Data, Data, Everywhere - Coursera',  value : 'Foundation Data, Data, Everywhere - Coursera'},
-                                                    {label : 'Data Engineer Nanodegree - Udacity', value : 'Data Engineer Nanodegree - Udacity'},
-                                                    {label : 'Learn Python: The Complete Python Programming Course - Udemy', value : 'Learn Python: The Complete Python Programming Course - Udemy'}
-                                                ]);
+    const [courses,setListOfCourses] = useState( []);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -121,10 +117,6 @@ export default function SignUpPage() {
         });
     };
     
-    useEffect(() =>{
-      console.log(courses_completed)
-    },[courses_completed])
-
     if (group.length>0 && group[0]['value']==="Recruiter") {
       return (
               <><ButtonAppBar /><div className="text-center m-5-auto">
