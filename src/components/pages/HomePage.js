@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CourseDetails from '../CourseDetailsComponent';
 
 import ExploreSection from "../common/exploreSection";
 
@@ -65,8 +64,6 @@ function HomePage(props) {
             var completed_courses_id = JSON.parse(body)['courses_completed']
             var ongoing_courses_id = JSON.parse(body)['ongoing_courses']
             setName(name1)
-            var completed_courses_list = [];
-            var ongoing_courses_list = [];
             for (let i=0;i<completed_courses_id.length;i++){
               console.log(completed_courses_id[i])
               fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+completed_courses_id[i], {
@@ -84,8 +81,6 @@ function HomePage(props) {
                 console.error('Error:', error);
               });
             }
-
-                console.log(completed_courses_list)
             for (let i=0;i<ongoing_courses_id.length;i++){
               fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/course?courseid='+ongoing_courses_id[i], {
                 method: 'GET', 
@@ -106,10 +101,11 @@ function HomePage(props) {
         .catch((error) => {
           console.error('Error:', error);
         });
-    },[]);
+    }, []);
 
 
     const [searchVal, setSearch] = useState('');
+    const [searchPressed, setPressed] = useState('');
 
     // https://search-course-details-zkv6rm6mcpx6ifdavir5l5bcb4.us-east-1.es.amazonaws.com
     const handleCourseSearch = event => {
@@ -126,6 +122,7 @@ function HomePage(props) {
             var courses=JSON.parse(body)
             console.log(courses)
             setSearchedCourses(courses)
+            setPressed('1');
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -133,7 +130,7 @@ function HomePage(props) {
     };
     console.log(searchedCourses)
     
-    if(searchVal){
+    if(searchPressed==='1'){
       return (
         <><ButtonAppBar />
         <div className="text-center m-5-auto">
@@ -147,7 +144,10 @@ function HomePage(props) {
         </Col>
         </Row>
 
-        <CourseDetails courses={searchedCourses} />
+        <ExploreSection
+            courses={searchedCourses}
+            collectionName="Search Results"
+          />
         </div></>
       )   
     }

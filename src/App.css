@@ -9,6 +9,7 @@
   .welcome_header{
     text-align: left;
     margin-left: 10px;
+    font-size: 20px;
   }
 
   #search_form{
@@ -234,10 +235,6 @@ form span {
 #search_label{
   font-size: 20px;
   margin-right: 10px;
-}
-
-.welcome_header{
-  font-size: 20px;
 }
 
 #sub_btn_search{
