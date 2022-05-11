@@ -231,17 +231,18 @@ function HomePage(props) {
                 <h3 className="preference_name">{preference[0]}</h3>
                 <div className="explore-grid">
                 {preference[1].map((candidate) => {
-                  for (var i=0;i<candidate.contacted.length; i++) {
-                    if (candidate.contacted[i][0]===email && candidate.contacted[i][1]===preference[0]){
-                      return (
-                        <div className="collection-title1">
-                          <div className="candidate_name">{candidate.full_name}</div> 
-                          <div className="candidate_email">Email: {candidate.email_address}</div>
-                          <form>
-                            <button id="sub_btn_email" type="button">Contacted</button>
-                          </form>
-                        </div>
-                        )
+                  if (candidate.contacted){
+                    for (var i=0;i<candidate.contacted.length; i++) {
+                      if (candidate.contacted[i][0]===email && candidate.contacted[i][1]===preference[0]){
+                        return (
+                          <div className="collection-title">
+                            {candidate.full_name} {candidate.email_address}
+                            <form>
+                              <button id="sub_btn_search" type="button">Already Sent</button>
+                            </form>
+                          </div>
+                          )
+                      }
                     }
                   }
                   for (var i=0;i<sentEmail.length;i++){
