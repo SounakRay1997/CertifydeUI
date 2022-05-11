@@ -52,6 +52,7 @@ function HomePage(props) {
     const [name, setName] = useState('');
     const [completed_courses, setListOfCompletedCourses] = useState([]);
     const [ongoing_courses, setListOfOngoingCourses] = useState([]);
+    const [recommended_courses, setRecommendedCourses] = useState([]);
     const [searchedCourses, setSearchedCourses] = useState([]);
 
     useLayoutEffect(() => {
@@ -106,7 +107,23 @@ function HomePage(props) {
         .catch((error) => {
           console.error('Error:', error);
         });
-    }, []);
+        fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/get-recommendations/'+email, {
+          method: 'GET', 
+          headers:{
+            Accept: 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+          var body = json['body']
+          console.log(body);
+          setRecommendedCourses(JSON.parse(body));
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }, [email]);
 
 
     const [searchVal, setSearch] = useState('');
@@ -178,7 +195,7 @@ function HomePage(props) {
             collectionName="Ongoing Courses"
           />
           <ExploreSection
-            courses={ongoing_courses}
+            courses={recommended_courses}
             collectionName="Recommended Courses"
           />    
           </div>

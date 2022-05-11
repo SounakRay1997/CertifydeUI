@@ -10,7 +10,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Select from 'react-dropdown-select';
 
 import '../../App.css'
@@ -111,6 +110,8 @@ function CourseStatusUpdatePage(props) {
         console.error('Error:', error);
       });  
     }
+    alert("Course Status has been updated!")
+    window.location.reload()
   };
 
   const onSubmitToCompleted = event => {
@@ -131,17 +132,20 @@ function CourseStatusUpdatePage(props) {
         console.error('Error:', error);
       });
     }
+    alert("Course Status has been updated!")
+    window.location.reload()
   };
 
   return (
     <><ButtonAppBar />
     <div className="text-center m-5-auto">
+      <div className="welcome_header">
+        Welcome {name}
+      </div>
+      <div className="modify_courses_row">
       <Row>
-        <Col><div className="welcome_header">Welcome {name}</div></Col>
-      </Row>
-      <Row>
-        <Col> <form onSubmit={onSubmitToOngoing}> 
-          <label> Courses Added to Ongoing</label><br/>
+         <form onSubmit={onSubmitToOngoing}> 
+          <label>Courses Added to Ongoing:</label><br/>
           <Select
             className='multi-select-class'
             multi
@@ -152,9 +156,12 @@ function CourseStatusUpdatePage(props) {
           />
           <br/>
           <button id="sub_btn_search" type="submit">Add to Ongoing</button>
-        </form> </Col>
-        <Col> <form onSubmit={onSubmitToCompleted}> 
-          <label> Courses Added to Completed</label><br />
+        </form>
+        </Row>
+        </div>
+        <div className="modify_courses_row">
+        <Row> <form onSubmit={onSubmitToCompleted}> 
+          <label>Courses Added to Completed:</label><br />
           <Select
             className='multi-select-class'
             multi
@@ -165,8 +172,9 @@ function CourseStatusUpdatePage(props) {
           />
           <br/>
           <button id="sub_btn_search" type="submit">Add to Completed</button>
-        </form> </Col>
+        </form>
       </Row>
+      </div>
     </div></>
   )
 }

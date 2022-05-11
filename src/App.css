@@ -8,7 +8,7 @@
 
   .welcome_header{
     text-align: left;
-    margin-left: 10px;
+    margin-left: 40px;
     font-size: 20px;
   }
 
@@ -157,6 +157,10 @@ h2 {
   border-radius: 2px;
   padding: 2rem;
   margin: 2rem 0 1rem 0
+}
+
+.modify_courses_row{
+  margin: 40px;
 }
 
 form label {
