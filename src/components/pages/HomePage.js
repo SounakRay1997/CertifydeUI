@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState, useLayoutEffect} from 'react';
 import { useAuthDispatch, logout, useAuthState } from '../../context'
-//import styles from './dashboard.module.css'
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -182,7 +181,8 @@ function HomePage(props) {
             body: JSON.stringify({
               sender_email: email,
               sender_name: name,
-              receiver_email: event.target.receiver_email.value
+              receiver_email: event.target.receiver_email.value,
+              preference: event.target.preference.value
             })
           })
       .then(response => response.json())
@@ -208,10 +208,23 @@ function HomePage(props) {
                 <Row>
                 <h3 className="collection-title">{preference[0]}</h3>
                 {preference[1].map((candidate) => {
+                  for (var i=0;i<candidate.contacted.length; i++) {
+                    if (candidate.contacted[i][0]===email && candidate.contacted[i][1]===preference[0]){
+                      return (
+                        <div className="collection-title">
+                          {candidate.full_name} {candidate.email_address}
+                          <form>
+                            <button id="sub_btn_search" type="button">Already Sent</button>
+                          </form>
+                        </div>
+                        )
+                    }
+                  }
                   return (
                   <div className="collection-title">
                     {candidate.full_name} {candidate.email_address}
                     <form onSubmit={handlesendEmail}>
+                      <input type="hidden" id="preference" name="preference" value={preference[0]}/>
                       <input type="hidden" id="receiver_email" name="receiver_email" value={candidate.email_address}/>
                       <button id="sub_btn_search" type="submit">Send Email</button>
                     </form>
