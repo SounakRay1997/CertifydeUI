@@ -67,6 +67,7 @@ function HomePage(props) {
     const [ongoing_courses, setListOfOngoingCourses] = useState([]);
     const [searchedCourses, setSearchedCourses] = useState([]);
     const [candidates_with_same_preferences, setCandidatesWithSamePreferences] = useState([])
+    const [sentEmail, setSentEmail] = useState([])
 
     useLayoutEffect(() => {
 
@@ -192,7 +193,10 @@ function HomePage(props) {
       .catch((error) => {
         console.error('Error:', error);
       });
-  };
+      var re = event.target.receiver_email.value;
+      var p = event.target.preference.value;
+      setSentEmail((oldArray) => [...oldArray, [re, p]])
+    };
 
     if (group==='Recruiter') {
       return (
@@ -210,6 +214,19 @@ function HomePage(props) {
                 {preference[1].map((candidate) => {
                   for (var i=0;i<candidate.contacted.length; i++) {
                     if (candidate.contacted[i][0]===email && candidate.contacted[i][1]===preference[0]){
+                      return (
+                        <div className="collection-title">
+                          {candidate.full_name} {candidate.email_address}
+                          <form>
+                            <button id="sub_btn_search" type="button">Already Sent</button>
+                          </form>
+                        </div>
+                        )
+                    }
+                  }
+                  for (var i=0;i<sentEmail.length;i++){
+                    console.log(sentEmail)
+                    if (sentEmail[i][0]===candidate.email_address && sentEmail[i][1]===preference[0]){
                       return (
                         <div className="collection-title">
                           {candidate.full_name} {candidate.email_address}
