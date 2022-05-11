@@ -171,7 +171,29 @@ function HomePage(props) {
           console.error('Error:', error);
         });
     };
-    
+
+    const handlesendEmail = event => {
+      event.preventDefault();
+      fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/send_email/', {
+            method: 'POST', 
+            headers:{
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              sender_email: email,
+              sender_name: name,
+              receiver_email: event.target.receiver_email.value
+            })
+          })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
     if (group==='Recruiter') {
       return (
         <><ButtonAppBar group={group}/>
@@ -189,6 +211,10 @@ function HomePage(props) {
                   return (
                   <div className="collection-title">
                     {candidate.full_name} {candidate.email_address}
+                    <form onSubmit={handlesendEmail}>
+                      <input type="hidden" id="receiver_email" name="receiver_email" value={candidate.email_address}/>
+                      <button id="sub_btn_search" type="submit">Send Email</button>
+                    </form>
                   </div>
                   )
                 })}                  
