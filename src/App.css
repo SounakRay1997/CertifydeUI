@@ -2,6 +2,20 @@
     text-align: center;
   }
   
+  .body {
+    background-color: lightblue;
+  }
+
+  .welcome_header{
+    text-align: left;
+    margin-left: 40px;
+    font-size: 20px;
+  }
+
+  #search_form{
+    align-items: right;
+  }
+
   .App-logo {
     width: 400px;
     height: 300px;
@@ -136,13 +150,17 @@ h2 {
   font-weight: 300
 }
 
-form {
+.multi_forms {
   display: inline-block;
   background: #f3f3f3;
   border: 1px solid #ddd;
   border-radius: 2px;
   padding: 2rem;
   margin: 2rem 0 1rem 0
+}
+
+.modify_courses_row{
+  margin: 40px;
 }
 
 form label {
@@ -210,4 +228,21 @@ form span {
 /***    Home Page     ***/
 .home-page-title {
   color: #222
+}
+
+#search {
+  width: 20em;  
+  height: 2em;
+  border: 1px solid black;
+}
+
+#search_label{
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+#sub_btn_search{
+  background-color: blue;
+  margin-left: 10px;
+  color: white;
 }
