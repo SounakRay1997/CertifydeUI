@@ -266,6 +266,7 @@ form span {
 
 .collection-title1{
   border: 1px solid transparent;
+  margin: 10px;
   border-color: black;
   height: 150px;
   border-radius: 15px;

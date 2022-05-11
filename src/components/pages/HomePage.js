@@ -235,10 +235,11 @@ function HomePage(props) {
                     for (var i=0;i<candidate.contacted.length; i++) {
                       if (candidate.contacted[i][0]===email && candidate.contacted[i][1]===preference[0]){
                         return (
-                          <div className="collection-title">
-                            {candidate.full_name} {candidate.email_address}
+                          <div className="collection-title1">
+                            <div className="candidate_name">{candidate.full_name}</div> 
+                            <div className="candidate_email">Email: {candidate.email_address}</div>
                             <form>
-                              <button id="sub_btn_search" type="button">Already Sent</button>
+                              <button id="sub_btn_email" type="button">Contacted</button>
                             </form>
                           </div>
                           )
