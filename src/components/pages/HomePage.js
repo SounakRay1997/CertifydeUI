@@ -228,7 +228,8 @@ function HomePage(props) {
               {candidates_with_same_preferences.map((preference) => {
               return (<div>
                 <Row>
-                <h3 className="collection-title">{preference[0]}</h3>
+                <h3 className="preference_name">{preference[0]}</h3>
+                <div className="explore-grid">
                 {preference[1].map((candidate) => {
                   if (candidate.contacted){
                     for (var i=0;i<candidate.contacted.length; i++) {
@@ -248,26 +249,30 @@ function HomePage(props) {
                     console.log(sentEmail)
                     if (sentEmail[i][0]===candidate.email_address && sentEmail[i][1]===preference[0]){
                       return (
-                        <div className="collection-title">
-                          {candidate.full_name} {candidate.email_address}
+                        <div className="collection-title1">
+                          <div className="candidate_name">{candidate.full_name}</div> 
+                          <div className="candidate_email">Email: {candidate.email_address}</div>
                           <form>
-                            <button id="sub_btn_search" type="button">Already Sent</button>
+                            <button id="sub_btn_email" type="button">Contacted</button>
                           </form>
                         </div>
                         )
                     }
                   }
+
                   return (
-                  <div className="collection-title">
-                    {candidate.full_name} {candidate.email_address}
+                  <div className="collection-title1">
+                    <div className="candidate_name">{candidate.full_name}</div> 
+                    <div className="candidate_email">Email: {candidate.email_address}</div>
                     <form onSubmit={handlesendEmail}>
                       <input type="hidden" id="preference" name="preference" value={preference[0]}/>
                       <input type="hidden" id="receiver_email" name="receiver_email" value={candidate.email_address}/>
-                      <button id="sub_btn_search" type="submit">Send Email</button>
+                      <button id="sub_btn_email" type="submit">Contact</button>
                     </form>
                   </div>
                   )
-                })}                  
+                })}
+                </div>                  
                 </Row>
                 <br/><br/><br/> </div>
               )

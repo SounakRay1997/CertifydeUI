@@ -1,7 +1,7 @@
 .explore-card {
     margin: 12px 12px 12px 12px;
     padding: 10px;
-    height: 500px;
+    height: 460px;
     border-radius: 15px;
     border: 1px solid transparent;
     border-color: black;
@@ -98,7 +98,7 @@
   }
   
   .res-name {
-    max-width: 200px;
+    max-width: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 18px;
