@@ -63,11 +63,7 @@ export default function SignUpPage() {
     const textInput1 = React.useRef();
     const textInput2 = React.useRef();
 
-    const [courses,setListOfCourses] = useState( [
-                                                    {label : 'Foundation Data, Data, Everywhere - Coursera',  value : 'Foundation Data, Data, Everywhere - Coursera'},
-                                                    {label : 'Data Engineer Nanodegree - Udacity', value : 'Data Engineer Nanodegree - Udacity'},
-                                                    {label : 'Learn Python: The Complete Python Programming Course - Udemy', value : 'Learn Python: The Complete Python Programming Course - Udemy'}
-                                                ]);
+    const [courses,setListOfCourses] = useState( []);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -77,7 +73,6 @@ export default function SignUpPage() {
     const [group, setGroup] = useState('');
 
     useEffect(() => {
-
       fetch('https://4dnsufx1d2.execute-api.us-east-1.amazonaws.com/test/courses', {
           method: 'GET', 
           headers:{
@@ -88,7 +83,7 @@ export default function SignUpPage() {
         .then(json => {
             var user_list = []
             var data_1 = json['body']
-            console.log(data_1)
+            // console.log(data_1)
             for (let i=0;i<data_1.length;i++){
                 user_list.push({'label':data_1[i].title,'value':data_1[i].id})
             }
@@ -122,16 +117,64 @@ export default function SignUpPage() {
         });
     };
     
-    useEffect(() =>{
-      console.log(courses_completed)
-    },[courses_completed])
+    if (group.length>0 && group[0]['value']==="Recruiter") {
+      return (
+              <><ButtonAppBar /><div className="text-center m-5-auto">
+                  <h2>Join us</h2>
+                  <h5>Create your personal account</h5>
+                  <form className="multi_forms" onSubmit={onSubmit}>
+                      <div>
+                          <label>Type of Account</label><br />
+                          <Select
+                              className='multi-select-class'
+                              options={account_types}
+                              values={[]}
+                              onChange={(values) => setGroup(values)}
+                              clearable={true}
+                          />
+                      </div>
+                      <br/>
+                      <p>
+                          <label>Full Name</label><br />
+                          <input ref={textInput} type="text" name="name" value={name} onChange={event => setName(event.target.value)} required />
+                      </p>
+                      <p>
+                          <label>Email address</label><br />
+                          <input ref={textInput1} type="email" name="email" value={email} onChange={event => setEmail(event.target.value)} required />
+                      </p>
+                      <p>
+                          <label>Password</label><br />
+                          <input ref={textInput2} type="password" name="password" value={password} onChange={event => setPassword(event.target.value)} required />
+                      </p>
+                      <div>
+                          <label>Areas of Preference</label><br />
+                          <Select
+                              className='multi-select-class'
+                              multi
+                              options={areas}
+                              values={[]}
+                              onChange={(values) => setPreferences(values)}
+                              clearable={true}
+                          />
+                      </div>
+                      <br/>
+                      <p>
+                          <button id="sub_btn" type="submit">Register</button>
+                      </p>
+                  </form>
+                  <footer>
+                      <p><Link to="/">Back to Homepage</Link></p>
+                  </footer>
+              </div></>
+      )
+    }
 
     return (
         <><ButtonAppBar /><div className="text-center m-5-auto">
             <h2>Join us</h2>
             <h5>Create your personal account</h5>
             <form className="multi_forms" onSubmit={onSubmit}>
-                <p>
+                <div>
                     <label>Type of Account</label><br />
                     <Select
                         className='multi-select-class'
@@ -140,7 +183,8 @@ export default function SignUpPage() {
                         onChange={(values) => setGroup(values)}
                         clearable={true}
                     />
-                </p>
+                </div>
+                <br/>
                 <p>
                     <label>Full Name</label><br />
                     <input ref={textInput} type="text" name="name" value={name} onChange={event => setName(event.target.value)} required />
@@ -153,7 +197,7 @@ export default function SignUpPage() {
                     <label>Password</label><br />
                     <input ref={textInput2} type="password" name="password" value={password} onChange={event => setPassword(event.target.value)} required />
                 </p>
-                <p>
+                <div>
                     <label>Areas of Preference</label><br />
                     <Select
                         className='multi-select-class'
@@ -163,8 +207,9 @@ export default function SignUpPage() {
                         onChange={(values) => setPreferences(values)}
                         clearable={true}
                     />
-                </p>
-                <p>
+                </div>
+                <br/>
+                <div>
                     <label>Courses Completed</label><br />
                     <Select
                         className='multi-select-class'
@@ -174,7 +219,8 @@ export default function SignUpPage() {
                         onChange={(values) => setCourses(values)}
                         clearable={true}
                     />
-                </p>
+                </div>
+                <br/>
                 <p>
                     <button id="sub_btn" type="submit">Register</button>
                 </p>

@@ -5,9 +5,6 @@ let token = localStorage.getItem("currentUser")
   ? JSON.parse(localStorage.getItem("currentUser")).auth_token
   : "";
 
-console.log(user)
-console.log(token)
-
 export const initialState = {
   userDetails: "" || user,
   token: "" || token,

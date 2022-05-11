@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState, useEffect, useLayoutEffect} from 'react';
 import { useAuthDispatch, logout, useAuthState } from '../../context'
-//import styles from './dashboard.module.css'
-import { Link } from 'react-router-dom'
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -31,9 +29,6 @@ function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <a className="header-link" href="/home" color="inherit">CERTIFYDE</a>
           </Typography>
-          <Link className="header-link" color="inherit" to="/home">
-                <Button className="header-link" color="inherit">Home </Button>
-            </Link>
           <LogoutButton />
         </Toolbar>
       </AppBar>
@@ -64,7 +59,7 @@ function CourseStatusUpdatePage(props) {
       .catch((error) => {
         console.error('Error:', error);
       });
-  },[]);
+  },[email]);
 
   const [courses,setListOfCourses] = useState( []);
   const [select_to_ongoing_courses, setSelectToOngoingCourses] = useState([]);

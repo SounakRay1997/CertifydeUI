@@ -13,7 +13,6 @@ function asyncAuthenticateUser(cognitoUser, cognitoAuthenticationDetails) {
 }
 
 export async function loginUser(dispatch, loginPayload) {
-  console.log(loginPayload)
   
   const authenticationData = {
     Username: loginPayload[0],
@@ -32,9 +31,7 @@ export async function loginUser(dispatch, loginPayload) {
   try {
     dispatch({ type: 'REQUEST_LOGIN' });
     let result = await asyncAuthenticateUser(cognitoUser, authenticationDetails)
-    console.log(result)
     let data = await result
-    console.log(data)
  
     if (data) {
       let return_data = {'user': {'email': loginPayload[0]}, 'auth_token': result.getAccessToken().getJwtToken()};

@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { AuthenticationDetails } from 'amazon-cognito-identity-js';
-// import { CognitoUser } from 'amazon-cognito-identity-js';
 import { loginUser,  useAuthDispatch } from '../../context' 
 
 import '../../App.css'
@@ -12,7 +10,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-// import UserPool from '../../UserPool';
 
 function ButtonAppBar() {
     return (
@@ -39,40 +36,7 @@ export default function LoginPage(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // const authenticationData = {
-    //   Username: email,
-    //   Password: password,
-    // };
-    
-    // console.log(authenticationData)
-
-    // const authenticationDetails = new AuthenticationDetails(authenticationData)
-
-    // const userData = {
-    //   Username: email,
-    //   Pool: UserPool,
-    // };
-    
     const dispatch = useAuthDispatch()
-    //const { loading, errorMessage } = useAuthState()
-
-    // const cognitoUser = new CognitoUser(userData);
-  
-    // const onSubmit = event => {
-    //     event.preventDefault();
-    //     cognitoUser.authenticateUser(authenticationDetails, {
-    //       onSuccess: function(result) {
-    //         console.log(result)
-    //         var accessToken = result.getAccessToken().getJwtToken();
-    //         console.log(accessToken)
-    //         alert("Logged In!")
-    //         window.location.href = "/home";
-    //       },
-    //       onFailure: function(err) {
-    //         alert("Please check your email and password. Also make sure that your email address is confirmed!")
-    //       }
-    //     });
-    // };
 
     const handleLogin = async (e) => {
       e.preventDefault()
