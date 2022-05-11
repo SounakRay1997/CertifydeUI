@@ -241,8 +241,42 @@ form span {
   margin-right: 10px;
 }
 
-#sub_btn_search{
-  background-color: blue;
+#sub_btn_search {
   margin-left: 10px;
-  color: white;
+  display: block;
+  width: 60px;
+  background: blue;
+  padding: .3rem;
+  border: none;
+  color: #fff;
+  border-radius: 3px;
+}
+
+#sub_btn_email {
+  display: block;
+  background: blue;
+  padding: .3rem;
+  border: none;
+  color: #fff;
+  border-radius: 3px;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}
+
+.collection-title1{
+  border: 1px solid transparent;
+  border-color: black;
+  height: 150px;
+  border-radius: 15px;
+  align-items: center;
+}
+
+.candidate_name{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.candidate_email{
+  margin: 20px;
 }

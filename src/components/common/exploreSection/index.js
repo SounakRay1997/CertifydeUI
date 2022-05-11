@@ -8,7 +8,7 @@ const ExploreSection = ({ courses, collectionName }) => {
     return (
       <div id = "hi" className="max-width explore-section">
         <h3 className="collection-title">{collectionName}</h3>
-        <div>Oops! No Courses are present. </div>
+        <div className="no_course">Oops! No Courses are present. </div>
     </div>
     );
   }

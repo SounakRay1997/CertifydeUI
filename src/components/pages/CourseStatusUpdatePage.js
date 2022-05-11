@@ -150,7 +150,7 @@ function CourseStatusUpdatePage(props) {
             clearable={true}
           />
           <br/>
-          <button id="sub_btn_search" type="submit">Add to Ongoing</button>
+          <button id="sub_btn_email" type="submit">Add to Ongoing</button>
         </form>
         </Row>
         </div>
@@ -166,7 +166,7 @@ function CourseStatusUpdatePage(props) {
             clearable={true}
           />
           <br/>
-          <button id="sub_btn_search" type="submit">Add to Completed</button>
+          <button id="sub_btn_email" type="submit">Add to Completed</button>
         </form>
       </Row>
       </div>
