@@ -5,5 +5,6 @@
 .explore-grid {
     display: flex;
     flex-wrap: wrap;
+    padding-left: 75px;
     justify-content: space-right;
 }
