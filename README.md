@@ -30,3 +30,12 @@ The recommendations are built on a dataset composed of more than 4300 courses.
 
 ## Backend Language
 * Python
+
+## Functionalities
+
+Our application can be used by both Recruiters and Candidates. 
+
+The functionalities that can be performed by a candidate is that they can choose their areas of interest, courses completed and ongoing courses. Using these three information we will deliver personalized recommendations to the users. The users can also search for courses of their interest across all platforms. They can also update the status of the courses they are pursuing currently.
+
+The recruiter can enter his or her area of interest and based on that we will match them to potential candidates who are interested in the same area. The recruiters can contact such candidates by just pressing a button on the UI and if the candidate is interested in the opportunity they can carry forward their conversation.
+
