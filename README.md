@@ -14,6 +14,10 @@ The user data is used to check for recommendations and for recruiters to contact
 
 The recommendations are built on a dataset composed of more than 4300 courses.
 
+## Demo Video
+
+https://www.youtube.com/watch?v=fCCRlZ92HjA
+
 ## Cloud Technologies Used
 * AWS S3
 * AWS API Gateway
